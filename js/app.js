@@ -35,21 +35,20 @@ document.addEventListener("DOMContentLoaded", () => {
     function mostrarAlerta(mensjae, campo){
        
         //creadno la alerta 
-        const id = campo.lastElementChild.id;
-        console.log(id);
+        const existe = document.querySelector('.invalid');
+        console.log(existe);
+
+
         const error = document.createElement('p');
         error.style.textAlign = 'center'  
         error.style.backgroundColor = 'red'   
         error.style.color = 'white'  
         error.style.borderRadius = '10px'
+        error.classList.add('invalid')
         
         error.textContent = `el campo ${mensjae} no puede estar vacio `; 
-        if(!error.classList.contains('invalid')){
-            campo.appendChild(error);
-            error.classList.add('invalid');
-        }else{
-            campo.removeChild(error);
-        }
+        
+        //validando si ya exixte una alerta
         
        
         
