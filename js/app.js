@@ -20,8 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function validar(e){
         const tipo = e.target.id;
         const campo = e.target.parentElement;
-        console.log(campo);
-        console.log(tipo);
         const input = e.target.value;
         if(input.trim() === ""){
             mostrarAlerta(tipo, campo);
@@ -35,10 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function mostrarAlerta(mensjae, campo){
        
         //creadno la alerta 
-        const existe = document.querySelector('.invalid');
+        const existe = campo.querySelector('.invalid');
         console.log(existe);
-
-
+        if(existe){
+            existe.remove();
+        }
+ 
         const error = document.createElement('p');
         error.style.textAlign = 'center'  
         error.style.backgroundColor = 'red'   
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
        
         
         //inyectar el error al formulario 
-        
+        campo.appendChild(error);
 
     }
 
