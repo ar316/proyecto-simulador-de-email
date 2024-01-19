@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputMensaje = document.querySelector('#mensaje');
     const formulario = document.querySelector('#formulario');
     const botonEnviar = document.querySelector('#botones');
+    const btnReset = document.querySelector('#formulario button[type="reset"]');
+    const spiner = document.querySelector('#spiner');
+    
     const email ={
         email: '',
         asunto: '',
@@ -14,13 +17,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log(email);
     eventos();
+    
+
+
 
     function eventos(){
+        btnReset.addEventListener('click', resetFormulario);
+        formulario.addEventListener('submit', enviarEmail);
         inputEmail.addEventListener('input', validar);
         inputAsunto.addEventListener('input', validar);
         inputMensaje.addEventListener('input', validar);
     }
+
     
+    function resetFormulario(e){
+        
+        //reiniciar el email
+        email.asunto= "";
+        email.mensaje= "";
+        email.email= "";
+
+        formulario.reset();
+        comporbarEmail(email)
+    }
+
+    function enviarEmail(e) {
+        e.preventDefault();
+        spiner.classList.add('flex');
+        spiner.classList.remove('hidden')
+        
+
+
+        setTimeout(()=>{
+            spiner.classList.remove('flex');
+            spiner.classList.add('hidden');
+            resetFormulario();
+
+            const envio = document.createElement('h2');
+            envio.classList.add('font-bold', 'uppercase', 'text-center');
+            envio.textContent = 'correo enviado exitosamente';
+            formulario.appendChild(envio);
+
+            setTimeout(() => {
+                envio.remove() ;
+            },2000 );
+
+        }, 3000);
+    }
 
     function validar(e){
        
