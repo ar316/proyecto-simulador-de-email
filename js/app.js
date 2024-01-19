@@ -5,21 +5,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
     const formulario = document.querySelector('#formulario');
+    const ccExtra = document.querySelector('#cc');
     const botonEnviar = document.querySelector('#botones');
     const btnReset = document.querySelector('#formulario button[type="reset"]');
     const spiner = document.querySelector('#spiner');
     
     const email ={
         email: '',
+        cc: '',
         asunto: '',
         mensaje: ''
+
     }
 
-    console.log(email);
-    eventos();
+    
+    
     
 
-
+    eventos();
 
     function eventos(){
         btnReset.addEventListener('click', resetFormulario);
@@ -27,8 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
         inputEmail.addEventListener('input', validar);
         inputAsunto.addEventListener('input', validar);
         inputMensaje.addEventListener('input', validar);
+        ccExtra.addEventListener('blur', validar);
     }
-
+      
     
     function resetFormulario(e){
         
@@ -36,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         email.asunto= "";
         email.mensaje= "";
         email.email= "";
+        email.cc= "";
 
         formulario.reset();
         comporbarEmail(email)
@@ -66,20 +71,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function validar(e){
-       
+        
+        console.log(e.target)
         const tipo = e.target.id;
+        console.log(tipo);
         const campo = e.target.parentElement;
         const input = e.target.value;
+        console.log(input) ;
+        if(tipo === "cc" && input.trim()===""){
+            console.log(" no hacer nada ");
+            limpiarAlerta(campo);
+            return;
+        }
         if(input.trim() === ""){
-            mostrarAlerta(tipo, campo);
+            mostrarAlerta(`el campo ${tipo} no puede estar vacio` , campo);
             email[tipo] ='';
             comporbarEmail(email);
             return ;
         }
         console.log(validarCorreo(email));
-        console.log(email);
-        if(!validarCorreo(input) && tipo ==="email" ){
-            mostrarAlerta(`el campo email debe ser valido`, campo);
+       
+        if(!validarCorreo(input) && tipo ==="email" || tipo ==="cc"){
+            mostrarAlerta(`el campo email debe ser valido  `, campo);
             email[tipo] ='';
             comporbarEmail(email)
             return; 
@@ -129,8 +142,9 @@ document.addEventListener("DOMContentLoaded", () => {
         error.style.color = 'white'  
         error.style.borderRadius = '10px'
         error.classList.add('invalid')
+      
         
-        error.textContent = `el campo ${mensjae} no puede estar vacio `; 
+        error.textContent = mensjae;
         
         //validando si ya exixte una alerta
         
