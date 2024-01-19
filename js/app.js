@@ -79,8 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const input = e.target.value;
         console.log(input) ;
         if(tipo === "cc" && input.trim()===""){
-            console.log(" no hacer nada ");
+            
             limpiarAlerta(campo);
+            console.log(" no hacer nada ");
             return;
         }
         if(input.trim() === ""){
