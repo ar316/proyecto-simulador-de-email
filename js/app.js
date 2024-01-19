@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         inputEmail.addEventListener('input', validar);
         inputAsunto.addEventListener('input', validar);
         inputMensaje.addEventListener('input', validar);
-        ccExtra.addEventListener('blur', validar);
+        ccExtra.addEventListener('input', validar);
     }
       
     
@@ -79,10 +79,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const input = e.target.value;
         console.log(input) ;
         if(tipo === "cc" && input.trim()===""){
-            
             limpiarAlerta(campo);
             console.log(" no hacer nada ");
             return;
+        }else{
+            if(!validarCorreo(input) && tipo ==="cc" ){
+                mostrarAlerta(`el campo email debe ser valido  `, campo);
+                email[tipo] ='';
+                comporbarEmail(email)
+                return; 
+            }
+            
         }
         if(input.trim() === ""){
             mostrarAlerta(`el campo ${tipo} no puede estar vacio` , campo);
@@ -92,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         console.log(validarCorreo(email));
        
-        if(!validarCorreo(input) && tipo ==="email" || tipo ==="cc"){
+        if(!validarCorreo(input) && tipo ==="email" ){
             mostrarAlerta(`el campo email debe ser valido  `, campo);
             email[tipo] ='';
             comporbarEmail(email)
@@ -119,7 +126,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function comporbarEmail(email) {
         //verifica si hay algun campo vacio del objeto email
-       const valores = Object.values(email).includes('');
+       const valores = Object.keys(email)
+        .filter( key =>key !== "cc" )
+        .map( key => email[key])
+        .includes("");
+        console.log(email);
+       console.log(valores);
        if(!valores){
             botonEnviar.children[0].classList.remove('opacity-50');
             botonEnviar.children[0].disabled = false;
